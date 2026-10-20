@@ -1,0 +1,124 @@
+<!doctype html><html lang="pl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Statki gramatyczne</title><style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at top,#3d91bd,#15517e 75%);font-family:Arial,sans-serif;color:#fff}.wrap{max-width:1550px;margin:auto;padding:15px}header{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.fleet{display:flex;flex-wrap:wrap;align-items:center;gap:5px;max-width:540px}.title{font-size:clamp(23px,3vw,43px);font-weight:900;letter-spacing:1px}.piece{cursor:grab;touch-action:none;user-select:none;display:flex;align-items:center;justify-content:center;height:75px}.piece svg{height:70px;width:auto;max-width:175px}.piece:active{cursor:grabbing}.markers{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.marker{cursor:grab;touch-action:none;border:2px solid #ffffff75;background:#ffffff1b;border-radius:10px;padding:7px;text-align:center;min-width:76px;font-size:12px;font-weight:bold;user-select:none}.marker span{display:block;font-size:30px}.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin:13px 0;align-items:center}.toolbar button,.rotate{border:0;border-radius:8px;background:#b9e3fa;color:#124e77;padding:9px 13px;font-weight:700;cursor:pointer}.toolbar button:hover,.rotate:hover{background:#fff}.rotate{margin-left:3px;background:#ffe8a0}.boards{display:grid;grid-template-columns:1fr 1fr;gap:40px}.boardtitle{font-size:21px;text-align:center;background:#9acde8a8;color:#123d5a;border-radius:5px;padding:6px;margin:0 auto 10px;width:62%}.board{position:relative}.grid{display:grid;grid-template-columns:1.28fr repeat(6,minmax(0,1fr));grid-template-rows:repeat(7,minmax(0,1fr));gap:3px;aspect-ratio:7.2/7.1;background:#104b77;padding:3px}.cell{display:flex;align-items:center;justify-content:center;text-align:center;min-width:0;min-height:0;background:#fff;color:#15283a;font-weight:bold}.head{background:#b8e1f8;font-size:clamp(10px,1.3vw,20px);overflow-wrap:anywhere;padding:2px}.corner{background:#104b77}.tile{position:relative;touch-action:none}.tile.over{background:#fff2bb;box-shadow:inset 0 0 0 3px #f5a623;z-index:2}.tile.over.invalid{background:#ffb8b8;box-shadow:inset 0 0 0 3px #e54848}.tile .mark{font-size:clamp(22px,3vw,42px);pointer-events:none}.overlay-mark{position:absolute;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:10;font-size:clamp(24px,3vw,43px);filter:drop-shadow(0 1px 2px #ffffff)}.ship-layer{position:absolute;inset:0;pointer-events:none}.placed-ship{position:absolute;pointer-events:auto;cursor:grab;touch-action:none;user-select:none;z-index:4}.placed-ship svg{width:100%;height:100%;display:block;pointer-events:none}.placed-ship:active{cursor:grabbing}.hiddenfleet .placed-ship{visibility:hidden}.settings{background:#e2f2ff;color:#16486c;border-radius:8px;padding:12px;margin:10px 0}.settings[hidden]{display:none}.fields{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;margin:7px 0 12px}.fields input{min-width:0;padding:8px;border:1px solid #9cbfd6;border-radius:5px}.ghost{position:fixed;z-index:10000;pointer-events:none;transform:translate(-50%,-50%);filter:drop-shadow(2px 4px 5px #082d4e80);font-size:42px}.ghost svg{height:85px;max-width:240px}.hint{font-size:13px;color:#e1f3ff;margin-top:14px}@media(max-width:1000px){.boards{grid-template-columns:1fr;gap:28px}.head{font-size:clamp(12px,2vw,20px)}}@media(max-width:580px){.wrap{padding:8px}.grid{gap:2px}.head{font-size:10px}.fields{grid-template-columns:repeat(3,1fr)}.piece{height:56px}.piece svg{height:53px}.marker{min-width:55px}}
+.stage{max-width:800px;margin:45px auto;padding:30px;background:#f5fbff;color:#16456c;border-radius:18px}.stage li{font-size:19px;line-height:1.7}.stage button,.ready{padding:14px 24px;border:0;border-radius:10px;background:#ffdb79;color:#17476a;font-size:19px;font-weight:bold;cursor:pointer}.stage[hidden],.wrap[hidden],.ready[hidden]{display:none!important}.setup .boards{grid-template-columns:minmax(0,700px);justify-content:center}.setup #enemySection,.setup #markers,.setup #hide,.setup #clearEnemy{display:none}.play #fleet,.play #rotate,.play #clearOwn,.play #edit,.play #settings{display:none!important}.play .placed-ship{pointer-events:none}.ready{display:block;margin:22px auto}
+
+:root{--boardSize:min(68vh,600px)}
+body{overflow-x:hidden}
+.wrap{max-width:1600px;padding:8px 16px}
+header{gap:12px}
+.fleet{max-width:none;flex-wrap:nowrap;gap:3px}
+.piece{height:clamp(43px,8vh,68px)}
+.piece svg{height:clamp(40px,7vh,65px);max-width:150px}
+.title{font-size:clamp(18px,2.3vw,32px)}
+.toolbar{margin:5px 0;gap:6px}
+.toolbar button,.rotate{padding:6px 10px}
+.boardtitle{font-size:17px;padding:3px;margin-bottom:4px}
+.boards{gap:20px;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.board{width:min(100%,calc((100vh - 178px)*.97));margin:auto}
+.grid{aspect-ratio:7.2/7.1;gap:2px}
+.setup .boards{grid-template-columns:minmax(0,1fr)}
+.setup .board{width:min(100%,calc((100vh - 195px)*.97),650px)}
+.setup header{justify-content:center}
+.setup #fleet{justify-content:center}
+.setup .title{display:none}
+.setup .toolbar{justify-content:center}
+.ready{margin:8px auto;padding:9px 20px}
+.hint{margin:5px 0;font-size:11px}
+.settings{position:fixed;z-index:1000;top:62px;left:50%;transform:translateX(-50%);width:min(850px,95vw);box-shadow:0 10px 40px #001b3e99}
+.teacher-panel{background:#e5f4ff;color:#124569;border-radius:9px;padding:10px 15px;margin:10px 0;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.teacher-panel button{background:#ffd97b;color:#164569;border:0;border-radius:8px;padding:9px 12px;font-weight:bold;cursor:pointer}
+.teacher-panel small{flex-basis:100%}
+#intro{max-height:94vh;overflow:auto}
+@media(min-width:800px){.setup .wrap,.play .wrap{height:100vh;overflow:hidden}.setup .boardtitle,.play .boardtitle{font-size:16px}}
+@media(max-width:850px){.play .boards{gap:8px}.play .head{font-size:clamp(8px,1.5vw,13px)}.play .board{width:100%}.play .grid{gap:1px}.marker{min-width:55px;padding:4px}.marker span{font-size:22px}}
+@media(max-width:600px){.play .boards{grid-template-columns:1fr}.play .board{width:min(100%,45vh)}.setup .board{width:min(100%,56vh)}}
+#floatingShare{position:fixed;right:14px;bottom:14px;z-index:999;background:#ffd875;color:#123f60;border:2px solid #fff;border-radius:14px;padding:12px 16px;font-weight:800;box-shadow:0 5px 20px #002e4a66;cursor:pointer}#floatingShare[hidden]{display:none!important}@media(max-width:600px){#floatingShare{right:8px;bottom:8px;padding:8px 10px;font-size:12px}}
+#shareDialog{position:fixed;inset:0;z-index:30000;background:#001d36bb;display:grid;place-items:center;padding:15px}#shareDialog[hidden]{display:none!important}#shareDialog .shareBox{width:min(580px,100%);background:#f5fbff;color:#16456c;border-radius:15px;padding:24px;box-shadow:0 10px 45px #001b3a88}#shareDialog button{border:0;border-radius:9px;padding:10px 15px;background:#ffdb79;color:#16456c;font-weight:bold;cursor:pointer;margin:5px}#shareDialog textarea{width:100%;min-height:80px;resize:vertical;padding:8px}#shareDialog p{line-height:1.5}
+</style></head><body><section class="settings" id="settings" hidden><button id="closeSettings" style="float:right">✕ Close</button><b>Columns — verbs</b><div class="fields" id="words"></div><b>Rows — pronouns</b><div class="fields" id="people"></div></section><section class="stage" id="intro"><h1>⚓ BATTLESHIP GRAMMAR</h1><h2>How to play</h2><ol><li>Drag your ships onto My Fleet.</li><li>Use the ↔ Horizontal / ↕ Vertical button to change the direction of your ships.</li><li><b>Ships cannot touch each other, even diagonally.</b> Leave at least one empty square between ships.</li><li>Place all six ships and click <b>I'm ready to play!</b> to lock your fleet.</li><li>During the game, mark 🌊 Miss, 🔥 Hit and 💥 Sunk on both boards.</li></ol><div class="teacher-panel" id="teacherPanel"><strong>Teacher settings</strong><button id="teacherEdit">✏️ Edit verbs & pronouns</button><button id="share">🔗 Share with student</button><small>Students using your shared link can play, but cannot edit the words.</small></div><button id="next">Next →</button></section><div class="wrap" id="game" hidden><header><div><div class="fleet" id="fleet"></div><button class="rotate" id="rotate">↔️ Poziomo</button></div><div class="title">BATTLESHIP GRAMMAR ⚓</div><div class="markers" id="markers"><div class="marker" data-mark="miss"><span>🌊</span>Miss</div><div class="marker" data-mark="hit"><span>🔥</span>Hit</div><div class="marker" data-mark="sunk"><span>💥</span>Sunk</div></div></header><div class="toolbar"><button id="edit">✏️ Edit verbs & pronouns</button><button id="hide">🙈 Ukryj moją flotę</button><button id="clearOwn">Wyczyść moją flotę</button><button id="clearEnemy">Wyczyść przeciwnika</button><button id="reset">New game</button></div><main class="boards"><section><div class="boardtitle">My Fleet</div><div class="board" id="own"><div class="grid"></div><div class="ship-layer"></div></div></section><section id="enemySection"><div class="boardtitle">Enemy Fleet</div><div class="board" id="enemy"><div class="grid"></div><div class="ship-layer"></div></div></section></main><button class="ready" id="ready">I'm ready to play! →</button><p class="hint">Przeciągnij statek na planszę. Po ustawieniu znika z dostępnych statków. Aby go odzyskać, przeciągnij go poza planszę. Symbole 🌊 🔥 💥 możesz przeciągać na obie plansze — również bezpośrednio na statki. Oznaczenia są zawsze widoczne na wierzchu.</p></div>
+<button id="floatingShare" hidden>🔗 Share with student</button><div id="shareDialog" hidden><div class="shareBox"><h2>Share with student</h2><p id="shareInfo"></p><textarea id="shareUrl" readonly hidden></textarea><div><button id="copyShareUrl" hidden>📋 Copy link</button><button id="downloadStudent">⬇️ Download student game (.html)</button><button id="closeShare">Close</button></div></div></div>
+<script>
+const params=new URLSearchParams(location.search);
+const studentMode=params.get('mode')==='student';
+function getLabels(key,fallback){try{const v=JSON.parse(params.get(key)||'null');return Array.isArray(v)&&v.length===6?v.map(x=>String(x).slice(0,35)):fallback}catch{return fallback}}
+const words=getLabels('verbs',['comer','beber','correr','vender','leer','creer']),people=getLabels('persons',['yo','tú','él/ella','nosotros','vosotros','ellos/ellas']);
+const specs=[{id:0,len:1,color:'#ffc62b'},{id:1,len:1,color:'#f27766'},{id:2,len:1,color:'#62ca7e'},{id:3,len:2,color:'#39a9f3'},{id:4,len:2,color:'#ad8dea'},{id:5,len:3,color:'#f4b64d'}];
+const state={own:{ships:[],marks:Array(36).fill(null)},enemy:{ships:[],marks:Array(36).fill(null)}};
+let stage='intro';let vertical=false,hide=false,drag=null,ghost=null,hover=[];
+function boat(len,color){const w=54*len+16;let sails='';for(let i=0;i<len;i++){let x=25+54*i;sails+=`<path d="M${x} 13 V58" stroke="#273e51" stroke-width="2.6"/><path d="M${x+2} 15 Q${x+36} 39 ${x+2} 55Z" fill="${color}" stroke="#e4edf6" stroke-width="1.5"/><path d="M${x-2} 17L${x-15} 34L${x-2} 37Z" fill="#f8df94"/>`;}return `<svg viewBox="0 0 ${w} 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 60 H${w-5} L${w-20} 75 H20Z" fill="#253d51"/>${sails}<path d="M5 77 Q15 71 25 77 T45 77 T65 77 T85 77 T105 77 T125 77 T145 77 T165 77 T185 77" stroke="#56b6ed" stroke-width="3" fill="none"/></svg>`}
+function canPlace(side,indices,ignore=null){
+if(indices.some(i=>i<0||i>=36))return false;
+for(const sh of state[side].ships){if(sh.id===ignore)continue;
+for(let j=0;j<sh.len;j++){const a=sh.index+(sh.vertical?j*6:j);
+for(const b of indices)if(Math.abs(Math.floor(a/6)-Math.floor(b/6))<=1&&Math.abs(a%6-b%6)<=1)return false;
+}}return true}
+function occupied(side){let result=new Set();for(const sh of state[side].ships)for(let j=0;j<sh.len;j++)result.add(sh.index+(sh.vertical?6*j:j));return result}
+function renderFleet(){const used=new Set([...state.own.ships,...state.enemy.ships].map(x=>x.id));const f=document.getElementById('fleet');f.replaceChildren();for(const sp of specs){if(used.has(sp.id))continue;let p=document.createElement('div');p.className='piece';p.dataset.ship=sp.id;p.title=sp.len+'-polowy statek';p.innerHTML=boat(sp.len,sp.color);f.append(p)}}
+function renderBoard(side){const root=document.getElementById(side),grid=root.querySelector('.grid'),layer=root.querySelector('.ship-layer');grid.replaceChildren();layer.replaceChildren();const add=(name,cls)=>{let el=document.createElement('div');el.className='cell '+cls;el.textContent=name;grid.append(el);return el};add('⚓','corner');words.forEach(w=>add(w,'head'));people.forEach((p,r)=>{add(p,'head');for(let c=0;c<6;c++){const i=r*6+c,t=add('','tile');t.dataset.side=side;t.dataset.i=i;}});positionShips(side)}
+function positionShips(side){const root=document.getElementById(side),layer=root.querySelector('.ship-layer'),tiles=root.querySelectorAll('.tile');layer.replaceChildren();const base=root.getBoundingClientRect();for(const sh of state[side].ships){const first=tiles[sh.index];const last=tiles[sh.index+(sh.vertical?6*(sh.len-1):sh.len-1)];if(!first||!last)continue;const a=first.getBoundingClientRect(),b=last.getBoundingClientRect();const ship=document.createElement('div');ship.className='placed-ship';ship.dataset.side=side;ship.dataset.ship=sh.id;ship.style.left=(a.left-base.left+3)+'px';ship.style.top=(a.top-base.top+3)+'px';ship.style.width=(b.right-a.left-6)+'px';ship.style.height=(b.bottom-a.top-6)+'px';const sp=specs.find(x=>x.id===sh.id);ship.innerHTML=boat(sh.len,sp.color);if(sh.vertical){ship.firstElementChild.style.transform='rotate(90deg)';ship.firstElementChild.style.transformOrigin='center';// use a rotated SVG within fixed ship bounds; avoid layout overflow
+ship.firstElementChild.style.width=(b.bottom-a.top-6)+'px';ship.firstElementChild.style.height=(a.width-6)+'px';ship.firstElementChild.style.position='absolute';ship.firstElementChild.style.left=((a.width-6-(b.bottom-a.top-6))/2)+'px';ship.firstElementChild.style.top=(((b.bottom-a.top-6)-(a.width-6))/2)+'px';}
+layer.append(ship)}
+// Markers are a separate top layer: they remain visible over ships on both boards.
+for(let i=0;i<36;i++){const m=state[side].marks[i];if(!m)continue;const tile=tiles[i],r=tile.getBoundingClientRect();const marker=document.createElement('span');marker.className='overlay-mark';marker.textContent={miss:'🌊',hit:'🔥',sunk:'💥'}[m];marker.style.left=(r.left-base.left)+'px';marker.style.top=(r.top-base.top)+'px';marker.style.width=r.width+'px';marker.style.height=r.height+'px';layer.append(marker)}
+}
+function render(){renderFleet();renderBoard('own');renderBoard('enemy');document.getElementById('own').classList.toggle('hiddenfleet',hide)}
+function editFields(){for(const [id,arr] of [['words',words],['people',people]]){const el=document.getElementById(id);el.replaceChildren();arr.forEach((v,i)=>{const inp=document.createElement('input');inp.value=v;inp.oninput=()=>{arr[i]=inp.value;renderBoard('own');renderBoard('enemy')};el.append(inp)})}}
+function tileAt(x,y){return document.elementsFromPoint(x,y).map(el=>el.closest('.tile')).find(Boolean)||null}
+function begin(e,kind,detail){if(e.button!==undefined&&e.button!==0)return;e.preventDefault();drag={kind,...detail};ghost=document.createElement('div');ghost.className='ghost';ghost.innerHTML=kind==='ship'?boat(detail.len,detail.color):{miss:'🌊',hit:'🔥',sunk:'💥'}[detail.mark];document.body.append(ghost);move(e)}
+function clearHover(){for(const el of hover){el.classList.remove('over','invalid')}hover=[]}
+function move(e){if(!drag)return;e.preventDefault();ghost.style.left=e.clientX+'px';ghost.style.top=e.clientY+'px';clearHover();const t=tileAt(e.clientX,e.clientY);if(!t)return;
+if(drag.kind!=='ship'){t.classList.add('over');hover=[t];return}
+const side=t.dataset.side,i=+t.dataset.i,vert=drag.vertical,len=drag.len,row=Math.floor(i/6);
+const old=drag.from&&state[drag.from].ships.find(x=>x.id===drag.id);
+const occupiedByOthers=new Set();for(const sh of state[side].ships){if(old&&side===drag.from&&sh.id===old.id)continue;for(let j=0;j<sh.len;j++)occupiedByOthers.add(sh.index+(sh.vertical?j*6:j))}
+const indices=Array.from({length:len},(_,j)=>i+(vert?j*6:j));
+const valid=side==='own'&&stage==='setup'&&indices.every(j=>j>=0&&j<36&&(vert||Math.floor(j/6)===row))&&canPlace(side,indices,old?.id);
+const tiles=document.getElementById(side).querySelectorAll('.tile');for(const j of indices){if(j<0||j>=36||(!vert&&Math.floor(j/6)!==row))continue;const el=tiles[j];el.classList.add('over');if(!valid)el.classList.add('invalid');hover.push(el)}
+}
+function end(e){if(!drag)return;const t=tileAt(e.clientX,e.clientY),d=drag;ghost.remove();ghost=null;clearHover();drag=null;
+if(d.kind==='ship'){if(stage!=='setup')return;const old=d.from&&state[d.from].ships.find(x=>x.id===d.id);if(old)state[d.from].ships=state[d.from].ships.filter(x=>x.id!==d.id);if(t){const side=t.dataset.side,i=+t.dataset.i,vert=d.vertical;const indices=Array.from({length:d.len},(_,j)=>i+(vert?6*j:j));const taken=occupied(side);const valid=side==='own'&&stage==='setup'&&indices.every(j=>j>=0&&j<36&&(vert?true:Math.floor(j/6)===Math.floor(i/6)))&&canPlace(side,indices,d.id);if(valid)state[side].ships.push({id:d.id,len:d.len,index:i,vertical:vert});else{if(old)state[d.from].ships.push(old);alert('Ships cannot touch each other, even diagonally.')}}render();return}
+if(t&&stage==='play'){const side=t.dataset.side,i=+t.dataset.i;state[side].marks[i]=d.mark;renderBoard(side)}}
+document.getElementById('fleet').addEventListener('pointerdown',e=>{const p=e.target.closest('[data-ship]');if(!p)return;if(stage!=='setup')return;const sp=specs[+p.dataset.ship];begin(e,'ship',{...sp,vertical,from:null})});
+document.getElementById('markers').addEventListener('pointerdown',e=>{const m=e.target.closest('[data-mark]');if(m&&stage==='play')begin(e,'mark',{mark:m.dataset.mark})});
+document.querySelector('.boards').addEventListener('pointerdown',e=>{const p=e.target.closest('.placed-ship');if(!p||stage!=='setup'||p.dataset.side!=='own')return;const sh=state[p.dataset.side].ships.find(x=>x.id===+p.dataset.ship);if(sh)begin(e,'ship',{...sh,color:specs[sh.id].color,from:p.dataset.side})});
+document.addEventListener('pointermove',move,{passive:false});document.addEventListener('pointerup',end);document.addEventListener('pointercancel',()=>{ghost?.remove();ghost=null;clearHover();drag=null});
+document.getElementById('teacherPanel').hidden=studentMode;
+document.getElementById('floatingShare').hidden=studentMode;
+document.getElementById('edit').hidden=studentMode;
+document.getElementById('teacherEdit').onclick=()=>{document.getElementById('settings').hidden=false};
+document.getElementById('closeSettings').onclick=()=>{document.getElementById('settings').hidden=true};
+function studentHtml(){
+let html='<!DOCTYPE html>\n'+document.documentElement.outerHTML;
+html=html.replace("const studentMode=params.get('mode')==='student';","const studentMode=true;");
+html=html.replace(/const words=getLabels\('verbs',[^\n]+/, 'const words='+JSON.stringify(words)+',people='+JSON.stringify(people)+';');
+return html;
+}
+function shareStudent(){
+const dialog=document.getElementById('shareDialog'),info=document.getElementById('shareInfo'),field=document.getElementById('shareUrl'),copy=document.getElementById('copyShareUrl');
+dialog.hidden=false;
+if(location.protocol==='file:'){
+info.textContent='This game is opened from your computer, so it does not have a public link. Download the student version below and send that HTML file to your student. They can play but cannot edit the words.';
+field.hidden=true;copy.hidden=true;
+}else{
+const u=new URL(location.href);u.searchParams.set('mode','student');u.searchParams.set('verbs',JSON.stringify(words));u.searchParams.set('persons',JSON.stringify(people));
+field.value=u.href;field.hidden=false;copy.hidden=false;
+info.textContent='Copy the link below. The student version contains your current verbs and pronouns and hides editing controls. You can also download an offline student file.';
+}
+}
+document.getElementById('copyShareUrl').onclick=async()=>{
+const field=document.getElementById('shareUrl');field.focus();field.select();
+try{await navigator.clipboard.writeText(field.value);alert('Student link copied!')}catch{alert('Select the link and press Ctrl+C (or Cmd+C on Mac).')}
+};
+document.getElementById('downloadStudent').onclick=()=>{
+const blob=new Blob([studentHtml()],{type:'text/html;charset=utf-8'});
+const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='battleship_grammar_student.html';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+};
+document.getElementById('closeShare').onclick=()=>{document.getElementById('shareDialog').hidden=true};
+document.getElementById('share').onclick=shareStudent;
+document.getElementById('floatingShare').onclick=shareStudent;
+document.getElementById('next').onclick=()=>{stage='setup';document.getElementById('intro').hidden=true;const g=document.getElementById('game');g.hidden=false;g.classList.add('setup');document.body.classList.add('setup');render()};
+document.getElementById('ready').onclick=()=>{if(state.own.ships.length!==specs.length){alert('Place all six ships first.');return}stage='play';const g=document.getElementById('game');g.classList.remove('setup');g.classList.add('play');document.body.classList.remove('setup');document.body.classList.add('play');document.getElementById('ready').hidden=true;document.getElementById('settings').hidden=true;render()};
+document.getElementById('rotate').onclick=()=>{vertical=!vertical;document.getElementById('rotate').textContent=vertical?'↕️ Pionowo':'↔️ Poziomo'};
+document.getElementById('edit').onclick=()=>{if(studentMode)return;let p=document.getElementById('settings');p.hidden=!p.hidden};document.getElementById('hide').onclick=()=>{hide=!hide;document.getElementById('hide').textContent=hide?'👀 Pokaż moją flotę':'🙈 Ukryj moją flotę';render()};
+for(const [btn,side] of [['clearOwn','own'],['clearEnemy','enemy']])document.getElementById(btn).onclick=()=>{state[side].ships=[];state[side].marks.fill(null);render()};document.getElementById('reset').onclick=()=>{if(confirm('Start a new game?'))location.reload()};
+window.addEventListener('resize',()=>{positionShips('own');positionShips('enemy')});editFields();render();
+</script></body></html>
