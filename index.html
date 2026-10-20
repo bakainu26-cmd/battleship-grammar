@@ -83,7 +83,7 @@ document.getElementById('markers').addEventListener('pointerdown',e=>{const m=e.
 document.querySelector('.boards').addEventListener('pointerdown',e=>{const p=e.target.closest('.placed-ship');if(!p||stage!=='setup'||p.dataset.side!=='own')return;const sh=state[p.dataset.side].ships.find(x=>x.id===+p.dataset.ship);if(sh)begin(e,'ship',{...sh,color:specs[sh.id].color,from:p.dataset.side})});
 document.addEventListener('pointermove',move,{passive:false});document.addEventListener('pointerup',end);document.addEventListener('pointercancel',()=>{ghost?.remove();ghost=null;clearHover();drag=null});
 document.getElementById('teacherPanel').hidden=studentMode;
-if(studentMode){document.getElementById('teacherPanel').remove();document.getElementById('settings').hidden=true;}
+if(studentMode){document.getElementById('settings').hidden=true;}
 document.getElementById('floatingShare').hidden=studentMode;
 document.getElementById('edit').hidden=studentMode;
 document.getElementById('teacherEdit').onclick=()=>{if(studentMode)return;document.getElementById('settings').hidden=false};
